@@ -3,6 +3,8 @@ import cv2
 import math
 from timeit import default_timer as timer
 
+from utilities import rotate, rotation_names
+
 
 class Augmentor:
     def __init__(self, patch_width, patch_height, stride, source_path, destination_path, destination_test_path='',
@@ -44,26 +46,16 @@ class Augmentor:
                     new_name = name_stem + '_' + str(i) + '_' + str(j)
                     new_path = (self.destination_test_path if name_stem in self.test_names else self.destination_path) + new_name
 
-                    # cropped
+                    # cropp
                     crop = img[i: self.patch_height + i, j: self.patch_width + j]
-                    cv2.imwrite(new_path + '.png', crop)
-                    # rotated crop
-                    temp = cv2.rotate(crop, cv2.ROTATE_90_CLOCKWISE)
-                    cv2.imwrite(new_path + '_rot90.png', temp)
-                    temp = cv2.rotate(crop, cv2.ROTATE_180)
-                    cv2.imwrite(new_path + '_rot180.png', temp)
-                    temp = cv2.rotate(crop, cv2.ROTATE_90_COUNTERCLOCKWISE)
-                    cv2.imwrite(new_path + '_rot270.png', temp)
-                    # flipped
-                    temp = cv2.flip(crop, 0)
-                    cv2.imwrite(new_path + '_flip.png', temp)
-                    # rotated flip
-                    temp = cv2.rotate(temp, cv2.ROTATE_90_CLOCKWISE)
-                    cv2.imwrite(new_path + '_flip_rot90.png', temp)
-                    temp = cv2.rotate(temp, cv2.ROTATE_90_CLOCKWISE)
-                    cv2.imwrite(new_path + '_flip_rot180.png', temp)
-                    temp = cv2.rotate(temp, cv2.ROTATE_90_CLOCKWISE)
-                    cv2.imwrite(new_path + '_flip_rot270.png', temp)
+                    
+                    # rotate
+                    name_suffixes = rotation_names() 
+                    rotated_crop = rotate(crop)
+                    
+                    # write 
+                    for _idx, crop in enumerate(rotated_crop):
+                        cv2.imwrite(new_path + name_suffixes[_idx] +'.png', crop)
 
                     k = k + 1
                     j = j + self.stride

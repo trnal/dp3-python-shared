@@ -1,0 +1,44 @@
+# ------------------ CONSTANTS ---------------------
+
+PATCH_WIDTH = 128
+PATCH_HEIGHT = 128
+PATCH_SIZE = 128
+PATCH_CHANNELS = 3
+
+
+# ----------------- DATA PATHS ---------------------
+
+DATA_FOLDER = '/Users/macbook/Desktop/SKOLA/DP/Data/'
+
+
+# SMALL DATASET 
+
+SMALL_FOLDER = DATA_FOLDER + 'small/'
+
+TEST_IMG_PATH = SMALL_FOLDER + 'images/test/'
+TEST_MASK_PATH = SMALL_FOLDER + 'masks/test/'
+
+PATCH_IMG_PATH = SMALL_FOLDER + 'images/test/patches/'
+PATCH_MASK_PATH = SMALL_FOLDER + 'masks/test/patches/'
+
+TRAIN_IMG_PATH = SMALL_FOLDER + 'images/train/'
+TRAIN_MASK_PATH = SMALL_FOLDER + 'masks/train/'
+
+TRAIN_PATCH_IMG_PATH = SMALL_FOLDER + 'images/train/patches/'
+TRAIN_PATCH_MASK_PATH = SMALL_FOLDER + 'masks/train/patches/'
+
+# MONUSAC DATASET
+
+MONUSAC_FOLDER = DATA_FOLDER + 'MoNuSAC_images_and_annotations/'
+
+MONUSAC_DATA = MONUSAC_FOLDER + 'data/'
+MONUSAC_IMGS = MONUSAC_FOLDER + 'images/'
+MONUSAC_MASKS = MONUSAC_FOLDER + 'masks/'
+MONUSAC_GENERATED_MASKS = MONUSAC_FOLDER + 'MoNuSAC_masks/'
+
+
+# ----------------- DUMP/MODEL PATHS ---------------------
+
+MODELS_PATH = '/data/'
+
+EXAMPLE_MODEL = MODELS_PATH + 'unet_jacc.h5'

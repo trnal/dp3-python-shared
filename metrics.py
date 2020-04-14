@@ -54,7 +54,7 @@ def cell_count_accuracy(ground_truth, mask, return_raw=False):
         else:
             fn += 1
 
-        # update r and mr masks
+        # update mask and intersection (so that one cell is not counted multiple times)
         detected_cell_indices = np.unique(cell * detected_cells)
         _mask[np.isin(detected_cells, detected_cell_indices)] = 0
         _intersection = _ground_truth * _mask

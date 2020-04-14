@@ -26,12 +26,12 @@ def jaccard_distance(y_true, y_pred, smooth=100):
 # input ground_truth: image (array-like) of uint8 background - 0, foreground - 255
 #       mask: image to be evaluated (array-like) of uint8 background - 0, foreground - 255
 #       return raw: if true, returns TP, TN, FP, FN
-#                   TP - number of cells in the ground truth which were in the mask (at least 50% of their area)
-#                   TN - 1 or 0 - if at least of 50% background was detected correctly
+#                   TP - number of cells in the ground truth which were also in the mask (at least 50% of their area)
+#                   TN - 1 or 0 - 1 if at least of 50% background was detected correctly
 #                   FP - number of cells in the mask which were not in the ground truth mask
 #                   FN - number of cells in the ground truth which were not in the mask (at least 50% of their area)
 # output cell count accuracy - floating number from <0,1>
-#        TP, TN, FP, FN - four integer values (if return_raw=True)
+#        TP, TN, FP, FN - tuple of four integer values (if return_raw=True)
 def cell_count_accuracy(ground_truth, mask, return_raw=False):
     no_cells, cells = cv2.connectedComponents(ground_truth)
     no_detected_cells, detected_cells = cv2.connectedComponents(mask)

@@ -79,7 +79,7 @@ def otsu_theshold(prediction):
     return mask
 
 
-def constant_threshold(preditction, threshold=127):
+def constant_threshold(prediction, threshold=127):
     _prediction = np.squeeze(prediction * 255)
     _prediction = _prediction.astype(dtype='uint8')
     _, mask = cv2.threshold(_prediction, 0, threshold, cv2.THRESH_BINARY)
@@ -87,7 +87,3 @@ def constant_threshold(preditction, threshold=127):
     return mask
 
 
-
-    
-
-            

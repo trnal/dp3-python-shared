@@ -1,6 +1,29 @@
 import cv2
 import numpy as np
 import math
+import time
+import pickle
+
+
+def dump(obj, name, path, verbose=True):
+    timestamp = str(time.time()).split('.')[0]
+    classname = type(obj).__name__
+
+    if classname == 'DataFrame':
+        obj.to_csv(path + name + '__' + timestamp + '.csv')
+    elif classname == 'dict':
+        with open(path + name + '__' + timestamp + '.p', 'wb') as file_pi:
+            pickle.dump(obj, file_pi)
+    elif classname == 'Model':
+        # store model in json and weights in .h5
+        print('do something')
+    else:
+        with open(path + name + '__' + timestamp + '.txt', 'wb') as file_pi:
+            file_pi.write(obj)
+
+    if verbose:
+        print('Written to: ' + path + name + '__' + timestamp)
+
 
 def rotation_names():
     return ['', '_rot90', '_rot180', '_rot270', '_flip', '_flip_rot90', '_flip_rot_180', '_flip_rot270']

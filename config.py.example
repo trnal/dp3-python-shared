@@ -4,6 +4,7 @@ PATCH_WIDTH = 128
 PATCH_HEIGHT = 128
 PATCH_SIZE = 128
 PATCH_CHANNELS = 3
+DEFAULT_STRIDE = 40
 
 
 # ----------------- DATA PATHS ---------------------
@@ -15,17 +16,35 @@ DATA_FOLDER = '/Users/macbook/Desktop/SKOLA/DP/Data/'
 
 SMALL_FOLDER = DATA_FOLDER + 'small/'
 
-TEST_IMG_PATH = SMALL_FOLDER + 'images/test/'
+ORIGINAL_IMG_PATH = SMALL_FOLDER + 'images'
+ORIGINAL_MASK_PATH = SMALL_FOLDER + 'masks'
+
+TRAIN_MASK_PATH = SMALL_FOLDER + 'masks/train/'
 TEST_MASK_PATH = SMALL_FOLDER + 'masks/test/'
 
-PATCH_IMG_PATH = SMALL_FOLDER + 'images/test/patches/'
-PATCH_MASK_PATH = SMALL_FOLDER + 'masks/test/patches/'
-
 TRAIN_IMG_PATH = SMALL_FOLDER + 'images/train/'
-TRAIN_MASK_PATH = SMALL_FOLDER + 'masks/train/'
+TEST_IMG_PATH = SMALL_FOLDER + 'images/test/'
 
-TRAIN_PATCH_IMG_PATH = SMALL_FOLDER + 'images/train/patches/'
-TRAIN_PATCH_MASK_PATH = SMALL_FOLDER + 'masks/train/patches/'
+HEMATO_IMG_PATH = SMALL_FOLDER + 'hemato_images'
+HEMATO_TRAIN_IMG_PATH = SMALL_FOLDER + 'hemato_images/train/'
+HEMATO_TEST_IMG_PATH = SMALL_FOLDER + 'hemato_images/test/'
+
+MACENKO_IMG_PATH = SMALL_FOLDER + 'macenko_images'
+MACENKO_TRAIN_IMG_PATH = SMALL_FOLDER + 'macenko_images/train/'
+MACENKO_TEST_IMG_PATH = SMALL_FOLDER + 'macenko_images/test/'
+
+VAHADANE_IMG_PATH = SMALL_FOLDER + 'vahadane_images'
+VAHADANE_TRAIN_IMG_PATH = SMALL_FOLDER + 'vahadane_images/train/'
+VAHADANE_TEST_IMG_PATH = SMALL_FOLDER + 'vahadane_images/test/'
+
+SHRANK_IMG_PATH = SMALL_FOLDER + 'shrank_images'
+SHRANK_MASK_PATH = SMALL_FOLDER + 'shrank_masks'
+SHRANK_TRAIN_MASK_PATH = SMALL_FOLDER + 'shrank_masks/train/'
+SHRANK_TEST_MASK_PATH = SMALL_FOLDER + 'shrank_masks/test/'
+SHRANK_TRAIN_IMG_PATH = SMALL_FOLDER + 'shrank_images/train/'
+SHRANK_TEST_IMG_PATH = SMALL_FOLDER + 'shrank_images/test/'
+
+
 
 # MONUSAC DATASET
 
@@ -39,6 +58,9 @@ MONUSAC_GENERATED_MASKS = MONUSAC_FOLDER + 'MoNuSAC_masks/'
 
 # ----------------- DUMP/MODEL PATHS ---------------------
 
-MODELS_PATH = '/data/'
+MODELS_PATH = '/Users/macbook/Desktop/SKOLA/DP/code/bla/data/'
 
-EXAMPLE_MODEL = MODELS_PATH + 'unet_jacc.h5'
+EXAMPLE_MODEL = MODELS_PATH + 'mod_1_2.h5'
+
+
+DUMPS_PATH = '/Users/macbook/Desktop/SKOLA/DP/code/bla/data/'

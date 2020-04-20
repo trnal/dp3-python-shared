@@ -13,6 +13,15 @@ PATCH_CHANNELS = 3
 
 
 def base_model(verbose=True):
+    model = base_architecture()
+    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=[jaccard_distance])
+
+    if verbose: model.summary()
+
+    return model
+
+
+def base_architecture():
     inputs = Input((PATCH_HEIGHT, PATCH_WIDTH, PATCH_CHANNELS))
     s = Lambda(lambda x: x / 255)(inputs)
 
@@ -67,8 +76,5 @@ def base_model(verbose=True):
     outputs = Conv2D(1, (1, 1), activation='sigmoid')(c9)
 
     model = Model(inputs=[inputs], outputs=[outputs])
-    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=[jaccard_distance])
-
-    if verbose: model.summary()
 
     return model

@@ -12,16 +12,25 @@ PATCH_HEIGHT = 128
 PATCH_CHANNELS = 3
 
 
-def base_model(verbose=True):
+def base_model(loss='binary_crossentropy', metrics=[jaccard_distance], optimizer='adam', verbose=True):
     model = base_architecture()
-    model.compile(optimizer='adam', loss='binary_crossentropy', metrics=[jaccard_distance])
+    model.compile(optimizer=optimizer, loss=loss, metrics=metrics)
 
     if verbose: model.summary()
 
     return model
+    
+    
+def linear_model(loss=lovasz_softmax, metrics=[jaccard_distance], optimizer='adam', verbose=True):
+    model = base_architecture(output_activation='linear')
+    model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
+    
+    if verbose: model.summary()
 
+    return model
+    
 
-def base_architecture():
+def base_architecture(output_activation='sigmoid'):
     inputs = Input((PATCH_HEIGHT, PATCH_WIDTH, PATCH_CHANNELS))
     s = Lambda(lambda x: x / 255)(inputs)
 
@@ -73,7 +82,7 @@ def base_architecture():
     c9 = Dropout(0.1)(c9)
     c9 = Conv2D(16, (3, 3), activation='elu', kernel_initializer='he_normal', padding='same')(c9)
 
-    outputs = Conv2D(1, (1, 1), activation='sigmoid')(c9)
+    outputs = Conv2D(1, (1, 1), activation=output_activation)(c9)
 
     model = Model(inputs=[inputs], outputs=[outputs])
 

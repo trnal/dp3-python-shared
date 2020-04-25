@@ -1,7 +1,20 @@
+import tensorflow as tf
 from keras import backend as K
 
 import cv2
 import numpy as np
+
+
+# Dice loss metric
+# source: https://lars76.github.io/neural-networks/object-detection/losses-for-segmentation/
+# input y_true: ground truth (image, array-like)
+#       y_pred: prediction (image, array-like) - same size as the ground truth
+# output dice loss number (float)
+def dice_loss(y_true, y_pred):
+    numerator = 2 * tf.reduce_sum(y_true * y_pred, axis=-1)
+    denominator = tf.reduce_sum(y_true + y_pred, axis=-1)
+
+    return 1 - (numerator + 1) / (denominator + 1)
 
 
 # Jaccard distance metric
@@ -14,7 +27,14 @@ def jaccard_distance(y_true, y_pred, smooth=100):
     intersection = K.sum(K.abs(y_true * y_pred), axis=-1)
     sum_ = K.sum(K.abs(y_true) + K.abs(y_pred), axis=-1)
     jac = (intersection + smooth) / (sum_ - intersection + smooth)
+    
     return (1 - jac) * smooth
+
+
+# source: https://lars76.github.io/neural-networks/object-detection/losses-for-segmentation/
+def lovasz_softmax(y_true, y_pred):
+    return lovasz_hinge(labels=y_true, logits=y_pred)
+
 
 
 #

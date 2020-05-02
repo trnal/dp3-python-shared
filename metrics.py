@@ -3,18 +3,7 @@ from keras import backend as K
 
 import cv2
 import numpy as np
-
-
-# Dice loss metric
-# source: https://lars76.github.io/neural-networks/object-detection/losses-for-segmentation/
-# input y_true: ground truth (image, array-like)
-#       y_pred: prediction (image, array-like) - same size as the ground truth
-# output dice loss number (float)
-def dice_loss(y_true, y_pred):
-    numerator = 2 * tf.reduce_sum(y_true * y_pred, axis=-1)
-    denominator = tf.reduce_sum(y_true + y_pred, axis=-1)
-
-    return 1 - (numerator + 1) / (denominator + 1)
+from vendor.lovasz_losses_tf import *
 
 
 # Jaccard distance metric
@@ -22,7 +11,7 @@ def dice_loss(y_true, y_pred):
 # input y_true: ground truth (image, array-like)
 #       y_pred: prediction (image, array-like) - same size as the ground truth
 #       smooth: smoothing
-# output jaccard distance number (float)
+# output jaccard distance - number (float)
 def jaccard_distance(y_true, y_pred, smooth=100):
     intersection = K.sum(K.abs(y_true * y_pred), axis=-1)
     sum_ = K.sum(K.abs(y_true) + K.abs(y_pred), axis=-1)
@@ -31,10 +20,21 @@ def jaccard_distance(y_true, y_pred, smooth=100):
     return (1 - jac) * smooth
 
 
-# source: https://lars76.github.io/neural-networks/object-detection/losses-for-segmentation/
-def lovasz_softmax(y_true, y_pred):
-    return lovasz_hinge(labels=y_true, logits=y_pred)
+# Dice loss (implementation inspired by jaccard_distance)
+# input y_true: ground truth (image, array-like)
+#       y_pred: prediction (image, array-like) - same size as the ground truth
+#       smooth: smoothing
+# output dice loss - number (float)
+def dice_loss(y_true, y_pred, smooth=1):
+    intersection = K.sum(K.abs(y_true * y_pred), axis=-1)
+    sum_ = K.sum(K.square(y_true),-1) + K.sum(K.square(y_pred),-1)
+    dice = (2. * intersection + smooth) / (sum_ + smooth)
+    
+    return 1 - dice
 
+
+def lovasz(y_true, y_pred):
+    return lovasz_softmax(probabs=y_pred, labels=y_true)
 
 
 #

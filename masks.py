@@ -2,9 +2,14 @@ import numpy as np
 from utilities import *
 
 
-def collect_output(model, img, stride=128, patch_size=128):
+# -------------------- COLLECTED OUTPUT -----------------------
+
+def collect_output(model, img, stride=128, patch_size=128, padding=0):
     patch_sums = np.zeros((img.shape[0], img.shape[1]))
     patch_counts = np.zeros((img.shape[0], img.shape[1]))
+    
+    patch_pad = patch_size - padding
+    stride = stride - 2*padding
 
     last_patch_vert, last_stride_vert, last_patch_horiz, last_stride_horiz = find_last_patch_indices(img, stride)
 
@@ -12,12 +17,19 @@ def collect_output(model, img, stride=128, patch_size=128):
     while i + patch_size <= img.shape[0]:
         j = 0
         while j + patch_size <= img.shape[1]:
+            
+            xs = padding if i!= 0 else 0
+            xe = patch_pad if i!=last_patch_vert else patch_size
+            ys = padding if j!= 0 else 0
+            ye = patch_pad if j!=last_patch_horiz else patch_size
 
-            crop = img[i: patch_size + i, j: patch_size + j]
+            crop = img[i: i + patch_size, j: j + patch_size]
             predicted = model.predict(np.expand_dims(crop, axis=0))
-
-            patch_sums[i: patch_size + i, j: patch_size + j] += np.squeeze(predicted)
-            patch_counts[i: patch_size + i, j: patch_size + j] += 1
+            
+            padded_prediction = np.squeeze(predicted)[xs : xe, ys : ye]
+            
+            patch_sums[i + xs : i + xe, j + ys : j + ye] += padded_prediction
+            patch_counts[i + xs : i + xe, j + ys : j + ye] += 1
 
             j = j + stride
             if j == last_stride_horiz: j = last_patch_horiz
@@ -62,6 +74,7 @@ def collect_output_median(model, img, stride=128, patch_size=128, process_predic
     return result
 
 
+
 def median_from_rotations(model, img):
     to_predict = rotate(img)
     predicted = model.predict(to_predict, verbose=0)
@@ -71,19 +84,39 @@ def median_from_rotations(model, img):
     return np.squeeze(med)
 
 
-def otsu_theshold(prediction):
-    _prediction = np.squeeze(prediction * 255)
-    _prediction = _prediction.astype(dtype='uint8')
+
+# -------------------- BINARIZATION -----------------------------
+
+def otsu_threshold(prediction):
+    _prediction = __process_prediction(prediction)
     _, mask = cv2.threshold(_prediction, 0, 255, cv2.THRESH_OTSU)
     
     return mask
 
 
 def constant_threshold(prediction, threshold=127):
-    _prediction = np.squeeze(prediction * 255)
-    _prediction = _prediction.astype(dtype='uint8')
+    _prediction = __process_prediction(prediction)    
     _, mask = cv2.threshold(_prediction, 0, threshold, cv2.THRESH_BINARY)
     
     return mask
 
 
+def adaptive_threshold_mean(prediction, block_size=11, c=2):
+    _prediction = __process_prediction(prediction)
+    mask = cv2.adaptiveThreshold(_prediction, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, block_size, c)
+    
+    return mask
+
+
+def adaptive_threshold_gaussian(prediction, block_size=11, c=2):
+    _prediction = __process_prediction(prediction)
+    mask = cv2.adaptiveThreshold(_prediction, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, block_size, c)
+    
+    return mask
+
+
+def __process_prediction(prediction):
+    _prediction = np.squeeze(prediction *255)
+    _prediction = _prediction.astype(dtype='uint8')
+    
+    return _prediction

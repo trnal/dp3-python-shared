@@ -5,6 +5,11 @@ import time
 import pickle
 
 
+# source: https://stackoverflow.com/questions/952914/how-to-make-a-flat-list-out-of-list-of-lists
+def flatten_list(l):
+    return [item for sublist in l for item in sublist]
+
+
 def dump(obj, name, path, verbose=True):
     timestamp = str(time.time()).split('.')[0]
     classname = type(obj).__name__

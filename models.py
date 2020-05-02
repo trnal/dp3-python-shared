@@ -21,7 +21,7 @@ def base_model(loss='binary_crossentropy', metrics=[jaccard_distance], optimizer
     return model
     
     
-def linear_model(loss=lovasz_softmax, metrics=[jaccard_distance], optimizer='adam', verbose=True):
+def linear_model(loss=lovasz, metrics=[jaccard_distance], optimizer='adam', verbose=True):
     model = base_architecture(output_activation='linear')
     model.compile(loss=loss, optimizer=optimizer, metrics=metrics)
     

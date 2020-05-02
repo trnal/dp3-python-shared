@@ -16,35 +16,42 @@ DATA_FOLDER = '/Users/macbook/Desktop/SKOLA/DP/Data/'
 
 SMALL_FOLDER = DATA_FOLDER + 'small/'
 
-ORIGINAL_IMG_PATH = SMALL_FOLDER + 'images'
-ORIGINAL_MASK_PATH = SMALL_FOLDER + 'masks'
+ORIGINAL_IMG_PATH = SMALL_FOLDER + 'images/'
+ORIGINAL_MASK_PATH = SMALL_FOLDER + 'masks/'
 
-TRAIN_MASK_PATH = SMALL_FOLDER + 'masks/train/'
-TEST_MASK_PATH = SMALL_FOLDER + 'masks/test/'
+ORIGINAL_TRAIN_IMG_PATH = SMALL_FOLDER + 'images/train/'
+ORIGINAL_TRAIN_MASK_PATH = SMALL_FOLDER + 'masks/train/'
 
-TRAIN_IMG_PATH = SMALL_FOLDER + 'images/train/'
-TEST_IMG_PATH = SMALL_FOLDER + 'images/test/'
+TRAIN_MASK_PATH = SMALL_FOLDER + 'masks/train/patches/'
+TEST_MASK_PATH = SMALL_FOLDER + 'masks/test/patches/'
 
-HEMATO_IMG_PATH = SMALL_FOLDER + 'hemato_images'
+TRAIN_IMG_PATH = SMALL_FOLDER + 'images/train/patches/'
+TEST_IMG_PATH = SMALL_FOLDER + 'images/test/patches/'
+
+HEMATO_IMG_PATH = SMALL_FOLDER + 'hemato_images/'
 HEMATO_TRAIN_IMG_PATH = SMALL_FOLDER + 'hemato_images/train/'
 HEMATO_TEST_IMG_PATH = SMALL_FOLDER + 'hemato_images/test/'
 
-MACENKO_IMG_PATH = SMALL_FOLDER + 'macenko_images'
+MACENKO_IMG_PATH = SMALL_FOLDER + 'macenko_images/'
 MACENKO_TRAIN_IMG_PATH = SMALL_FOLDER + 'macenko_images/train/'
 MACENKO_TEST_IMG_PATH = SMALL_FOLDER + 'macenko_images/test/'
 
-VAHADANE_IMG_PATH = SMALL_FOLDER + 'vahadane_images'
+VAHADANE_IMG_PATH = SMALL_FOLDER + 'vahadane_images/'
 VAHADANE_TRAIN_IMG_PATH = SMALL_FOLDER + 'vahadane_images/train/'
 VAHADANE_TEST_IMG_PATH = SMALL_FOLDER + 'vahadane_images/test/'
 
-SHRANK_IMG_PATH = SMALL_FOLDER + 'shrank_images'
-SHRANK_MASK_PATH = SMALL_FOLDER + 'shrank_masks'
+SHRANK_IMG_PATH = SMALL_FOLDER + 'shrank_images/'
+SHRANK_MASK_PATH = SMALL_FOLDER + 'shrank_masks/'
 SHRANK_TRAIN_MASK_PATH = SMALL_FOLDER + 'shrank_masks/train/'
 SHRANK_TEST_MASK_PATH = SMALL_FOLDER + 'shrank_masks/test/'
 SHRANK_TRAIN_IMG_PATH = SMALL_FOLDER + 'shrank_images/train/'
 SHRANK_TEST_IMG_PATH = SMALL_FOLDER + 'shrank_images/test/'
 
+EXTRA_SMALL_IMG_PATH = SMALL_FOLDER + 'xs_img/'
+EXTRA_SMALL_MASK_PATH = SMALL_FOLDER + 'xs_mask/'
 
+RESULTS_OUTPUT_PATH = SMALL_FOLDER + 'results/output/'
+RESULTS_MASK_PATH = SMALL_FOLDER + 'results/mask/'
 
 # MONUSAC DATASET
 

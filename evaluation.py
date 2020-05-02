@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 
 from models import *
 from utilities import *
+from masks import *
 
 
 def evaluate_patches(weights_file_path, img_patches_path, mask_patches_path, ignore_rotated=True):
@@ -64,7 +65,7 @@ def evaluate_patches(weights_file_path, img_patches_path, mask_patches_path, ign
     return results
 
 
-def inspect_prediction(model, img_name, PATCH_IMG_PATH, PATCH_MASK_PATH):
+def inspect_prediction(model, img_name, PATCH_IMG_PATH, PATCH_MASK_PATH, mask_function=otsu_threshold):
     img = cv2.imread(PATCH_IMG_PATH + img_name)
     mask = cv2.imread(PATCH_MASK_PATH + img_name, cv2.IMREAD_GRAYSCALE)
 
@@ -75,27 +76,35 @@ def inspect_prediction(model, img_name, PATCH_IMG_PATH, PATCH_MASK_PATH):
     # Plot
     fig=plt.figure(figsize=(30, 10))
     # input
-    fig.add_subplot(1, 6, 1)
+    ax = fig.add_subplot(1, 6, 1)
+    ax.title.set_text('Input')
     plt.imshow(img)
     # output
-    fig.add_subplot(1, 6, 2)
+    ax = fig.add_subplot(1, 6, 2)
+    ax.title.set_text('Output')
     plt.imshow(cv2.cvtColor(np.squeeze(pred), cv2.COLOR_BGR2RGB))
     # ground truth
-    fig.add_subplot(1, 6, 3)
+    ax = fig.add_subplot(1, 6, 3)
+    ax.title.set_text('Ground truth')
     plt.imshow(mask, cmap='gray')
     # our result
-    result = otsu_theshold(pred)
-    fig.add_subplot(1, 6, 4)
+    result = mask_function(pred)
+    ax = fig.add_subplot(1, 6, 4)
+    ax.title.set_text('Our mask')
     plt.imshow(result, cmap='gray')
     # overlay ground truth and our result
     overlay = np.zeros(img.shape, dtype='uint8')
     overlay[:, :, 0] = mask
     overlay[:, :, 1] = result
-    fig.add_subplot(1, 6, 5)
+    ax = fig.add_subplot(1, 6, 5)
+    ax.title.set_text('Ground truth vs mask (green)')
     plt.imshow(overlay)
     # overlay our result and input
-#     fig.add_subplot(1, 6, 6)
-#     plt.imshow(mask)
+    contours,_ = cv2.findContours(result, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    marked_in_img = cv2.drawContours(img, contours, -1, (0,255,0))
+    ax = fig.add_subplot(1, 6, 6)
+    ax.title.set_text('Mask contours')
+    plt.imshow(marked_in_img)
     plt.show()
     
     

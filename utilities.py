@@ -11,27 +11,32 @@ def flatten_list(l):
 
 
 def dump(obj, name, path, verbose=True):
-    timestamp = str(time.time()).split('.')[0]
+#     timestamp = str(time.time()).split('.')[0]
+#     '__' + timestamp +
     classname = type(obj).__name__
+    ext = ''
 
     if classname == 'DataFrame':
-        obj.to_csv(path + name + '__' + timestamp + '.csv')
+        obj.to_csv(path + name + '.csv')
+        ext = '.csv'
     elif classname == 'dict':
-        with open(path + name + '__' + timestamp + '.p', 'wb') as file_pi:
+        ext = '.p'
+        with open(path + name + '.p', 'wb') as file_pi:
             pickle.dump(obj, file_pi)
     elif classname == 'Model':
         # store model in json and weights in .h5
         print('do something')
     else:
-        with open(path + name + '__' + timestamp + '.txt', 'wb') as file_pi:
+        ext = '.data'
+        with open(path + name + '.data', 'wb') as file_pi:
             file_pi.write(obj)
 
     if verbose:
-        print('Written to: ' + path + name + '__' + timestamp)
+        print('Written to: ' + path + name + ext)
 
 
 def rotation_names():
-    return ['', '_rot90', '_rot180', '_rot270', '_flip', '_flip_rot90', '_flip_rot_180', '_flip_rot270']
+    return ['', '_rot90', '_rot180', '_rot270', '_flip', '_flip_rot90', '_flip_rot180', '_flip_rot270']
 
 
 def rotate(img):
